@@ -10,7 +10,7 @@ agent = Mechanize.new()
 chosen = false
 
 until chosen == true
-  page = agent.get("https://www.kinopoisk.ru/top/lists/1/filtr/all/sort/order/perpage/100/page#{rand(5)}")
+  page = agent.get("https://www.kinopoisk.ru/top/lists/1/filtr/all/sort/order/perpage/100/page/#{rand(5)+1}")
 
   tr_tag = page.search("//tr[starts-with(@id, 'tr_')]").to_a.sample
 
@@ -39,13 +39,6 @@ else
   puts
   puts
   puts
-  sleep(1.5)
-  puts 'Давай попробуем еще...'
-  puts
-  puts
-  puts
-  puts
-  sleep(1.5)
 end
 
 end
