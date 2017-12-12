@@ -3,6 +3,7 @@
 # Программа для выбора кино из списка top500 на сайте http://www.kinopoisk.ru/top/
 
 require 'mechanize'
+require 'launchy'
 
 agent = Mechanize.new()
 
@@ -22,7 +23,8 @@ until chosen == true
   film_title = tr_tag.search("a[@class='all']").text
   film_rang = tr_tag.search("div[@class='num rangImp']").text
   kinopoisk_rating = tr_tag.search("span[@class='all']").text
-  kinopoisk_link = "https://www.kinopoisk.ru/film/##{tr_tag.attributes['id']}/"
+  kinopoisk_id = tr_tag.attributes['id'].text.tr!('tr_','')
+  kinopoisk_link = "https://www.kinopoisk.ru/film/#{kinopoisk_id}/"
   film_description = tr_tag.search("span[@class='gray_text']")[0].text
 
   puts
@@ -37,6 +39,22 @@ until chosen == true
 
 if user == 'y'
   chosen = true
+
+  puts 'Какую страницу открыть?'
+  puts "1. Кинопоиск;"
+  puts "2. РуТрекер?"
+
+  user = STDIN.gets.chomp.to_i
+
+  if user == 1
+  Launchy.open(kinopoisk_link)
+  elsif user == 2
+  Launchy.open("https://rutracker.org/forum/tracker.php?nm=#{film_title}")
+
+  else
+    puts 'Простите, не понятно...'
+    puts
+  end
   puts 'Приятного просмотра!'
 else
   puts
