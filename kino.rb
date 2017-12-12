@@ -10,8 +10,12 @@ agent = Mechanize.new()
 chosen = false
 
 until chosen == true
+  begin
   page = agent.get("https://www.kinopoisk.ru/top/lists/1/filtr/all/sort/order/perpage/100/page/#{rand(5)+1}")
-
+  rescue SocketError => exception
+    puts exception
+    abort('Не удалось подключиться к серверу')
+    end
   tr_tag = page.search("//tr[starts-with(@id, 'tr_')]").to_a.sample
 
 
